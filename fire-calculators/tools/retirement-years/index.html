@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>退休達成年數試算器｜FIRE 財務試算工具箱</title>
+  <meta name="description" content="輸入目前資產、退休目標金額、每月投入、預期年化報酬率與波動率，估算距離達成退休金目標尚須幾年，並用蒙地卡羅模擬呈現達成年數分布。" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://lanvtand0050.github.io/fire-calculators/tools/retirement-years/" />
+  <script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2613276287890532"
+    crossorigin="anonymous"
+  ></script>
+  <link rel="stylesheet" href="../../style.css?v=20260620-3" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a class="back-link" href="../../">← 回工具箱首頁</a>
+      <h1>退休達成年數試算器</h1>
+      <p>
+        用目前資產、退休目標金額、每月投入、預期報酬率與市場波動，估算距離達成規劃退休金目標尚須多久。
+      </p>
+    </header>
+
+    <main class="layout">
+      <section class="card input-card">
+        <h2>輸入參數</h2>
+
+        <div class="form-grid">
+          <label>
+            目前可投資資產
+            <input id="currentAssetWan" type="number" value="2000" min="0" step="1" />
+            <span>萬元，例如 2,000 萬請輸入 2000</span>
+          </label>
+
+          <label>
+            退休目標金額
+            <input id="targetAssetWan" type="number" value="4000" min="0" step="1" />
+            <span>萬元，例如 4,000 萬請輸入 4000</span>
+          </label>
+
+          <label>
+            每月投入金額
+            <input id="monthlyContributionWan" type="number" value="5" min="0" step="0.1" />
+            <span>萬元 / 月，例如每月 5 萬請輸入 5</span>
+          </label>
+
+          <label>
+            預期年化報酬率
+            <input id="annualReturnRate" type="number" value="8" step="0.1" />
+            <span>% / 年；固定報酬試算會直接使用此數值</span>
+          </label>
+
+          <label>
+            年化波動率
+            <input id="annualVolatility" type="number" value="18" min="0" step="0.1" />
+            <span>% / 年；蒙地卡羅模擬使用此數值產生不同市場路徑</span>
+          </label>
+
+          <label>
+            每年投入成長率
+            <input id="contributionGrowthRate" type="number" value="0" step="0.1" />
+            <span>% / 年，可用來模擬薪資成長後提高投入金額</span>
+          </label>
+
+          <label>
+            最長試算年數
+            <input id="maxYears" type="number" value="40" min="1" max="100" step="1" />
+            <span>年；若期間內未達標，視為未達成</span>
+          </label>
+
+          <label>
+            蒙地卡羅模擬次數
+            <input id="simulations" type="number" value="10000" min="100" max="100000" step="100" />
+            <span>次；建議 5,000～20,000 次即可</span>
+          </label>
+        </div>
+
+        <button id="calculateButton">開始試算</button>
+
+        <p class="hint">
+          說明：固定報酬試算採每月複利；蒙地卡羅模擬會每年隨機產生一次市場報酬，並以月投入方式推估是否達標。結果僅供情境估算。
+        </p>
+      </section>
+
+      <section class="card result-card">
+        <h2>固定報酬試算結果</h2>
+
+        <div class="result-highlight">
+          <span>距離達成目標尚須</span>
+          <strong id="yearsNeeded">-</strong>
+        </div>
+
+        <div class="result-grid">
+          <div class="result-box">
+            <span class="result-label">預估達標日期</span>
+            <strong id="targetDate">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">目前距離目標缺口</span>
+            <strong id="assetGap">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">達標時預估資產</span>
+            <strong id="finalAsset">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">期間累計投入本金</span>
+            <strong id="totalContribution">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">投資報酬估算</span>
+            <strong id="investmentGain">-</strong>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="card mc-card">
+      <h2>蒙地卡羅達成年數分布</h2>
+      <p class="section-intro">
+        固定報酬只回答「平均假設下多久達標」。蒙地卡羅模擬則把市場波動納入，呈現不同情境下的達標時間分布。
+      </p>
+
+      <div class="result-grid mc-result-grid">
+        <div class="result-box">
+          <span class="result-label">期間內達成機率</span>
+          <strong id="mcSuccessRate">-</strong>
+        </div>
+
+        <div class="result-box">
+          <span class="result-label">期間內未達成機率</span>
+          <strong id="mcFailureRate">-</strong>
+        </div>
+
+        <div class="result-box">
+          <span class="result-label">P10 達成年數</span>
+          <strong id="mcP10">-</strong>
+        </div>
+
+        <div class="result-box">
+          <span class="result-label">P25 達成年數</span>
+          <strong id="mcP25">-</strong>
+        </div>
+
+        <div class="result-box">
+          <span class="result-label">P50 達成年數</span>
+          <strong id="mcP50">-</strong>
+        </div>
+
+        <div class="result-box">
+          <span class="result-label">P75 達成年數</span>
+          <strong id="mcP75">-</strong>
+        </div>
+
+        <div class="result-box">
+          <span class="result-label">P90 達成年數</span>
+          <strong id="mcP90">-</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="card chart-card">
+      <h2>累積達成機率圖</h2>
+      <p class="section-intro">
+        此圖表示「到每一個年份為止，已經達成退休目標的模擬比例」。例如第 10 年顯示 70%，代表在所有蒙地卡羅模擬路徑中，約有 70% 已於第 10 年以前達成目標金額。
+      </p>
+      <canvas id="targetProbabilityChart"></canvas>
+    </section>
+
+    <section class="card table-card">
+      <h2>固定報酬年度資產推估</h2>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>年度</th>
+              <th>年底預估資產</th>
+              <th>當年投入</th>
+              <th>累計投入</th>
+            </tr>
+          </thead>
+          <tbody id="projectionTableBody">
+            <tr>
+              <td colspan="4">請先輸入參數並開始試算。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card explanation-card">
+      <h2>如何解讀</h2>
+      <div class="explanation-grid">
+        <div class="explanation-box">
+          <h3>固定報酬結果</h3>
+          <p>代表假設每年都穩定取得你輸入的年化報酬率時，資產首次達到退休目標金額所需時間。這是快速估算，不代表市場會平滑成長。</p>
+        </div>
+        <div class="explanation-box">
+          <h3>蒙地卡羅結果</h3>
+          <p>每次模擬都會產生一條不同的市場報酬路徑，再計算是否能在最長試算年數內達標。達成機率越高，代表設定越有餘裕。</p>
+        </div>
+        <div class="explanation-box">
+          <h3>P10 / P50 / P90</h3>
+          <p>P50 是中位數達成年數；P90 可視為較保守的達標時間。若顯示「未達成」，代表對應比例的模擬路徑在試算期間內仍未達標。</p>
+        </div>
+        <div class="explanation-box">
+          <h3>累積達成機率圖</h3>
+          <p>這條線不是資產金額，而是「到該年度以前已達標的累積比例」。它可以用來判斷 5 年、10 年或 15 年內達成退休目標的機率。</p>
+        </div>
+        <div class="explanation-box">
+          <h3>投入成長率</h3>
+          <p>若你預期薪資增加後每年能提高投入金額，可設定每年投入成長率；若不想考慮，維持 0 即可。</p>
+        </div>
+      </div>
+      <div class="interpretation-note">
+        判讀建議：固定報酬結果用來看「基準答案」，蒙地卡羅 P50 用來看「一般情境」，P90 用來看「較保守情境」。累積達成機率圖則適合用來回答「幾年內達標機率有多高」。如果 P90 達成年數明顯超過你的退休目標年齡，代表目前投入或目標設定可能需要調整。
+      </div>
+    </section>
+
+    <footer>
+      <p>此網站僅為財務情境試算，不構成投資建議。</p>
+      <p><a class="footer-link" href="https://lanvtand0050.github.io/privacy.html">隱私權政策</a></p>
+    </footer>
+  </div>
+
+  <script src="script.js?v=20260616-5"></script>
+</body>
+</html>

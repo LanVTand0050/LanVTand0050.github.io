@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>退休資產存活率試算器｜FIRE 財務試算工具箱</title>
+  <meta name="description" content="輸入退休資產、提領率、通膨率、平均報酬率、波動率與退休年數，透過蒙地卡羅模擬估算退休期間的資產存活率與不同百分位資產路徑。" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://lanvtand0050.github.io/fire-calculators/tools/monte-carlo/" />
+  <script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2613276287890532"
+    crossorigin="anonymous"
+  ></script>
+
+  <!-- 載入外部 CSS -->
+  <link rel="stylesheet" href="../../style.css?v=20260620-3" />
+
+  <!-- 載入 Chart.js，用來畫資產路徑圖 -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <a class="back-link" href="../../">← 回到工具首頁</a>
+      <h1>退休資產存活率試算器</h1>
+      <p>
+        輸入退休資產、提領率、通膨率、報酬率與波動率，估算退休期間資產是否能支撐完整規劃年限。
+      </p>
+    </header>
+
+    <main class="layout">
+      <!-- 左側：輸入參數 -->
+      <section class="card input-card">
+        <h2>輸入參數</h2>
+
+        <div class="form-grid">
+          <label>
+            退休資產
+            <input id="initialAssetWan" type="number" value="4000" min="0" />
+            <span>萬元，例如 4,000 萬請輸入 4000</span>
+          </label>
+
+          <label>
+            年提領率
+            <input id="withdrawalRate" type="number" value="3" min="0" step="0.1" />
+            <span>% / 年，例如 3 代表每年提領初始資產的 3%</span>
+          </label>
+
+          <div class="preview-box">
+            <span>初始年提領金額</span>
+            <strong id="initialWithdrawalAmount">-</strong>
+            <small>後續年度會依通膨率逐年調整提領金額。</small>
+          </div>
+
+          <label>
+            通膨率
+            <input id="inflationRate" type="number" value="3" step="0.1" />
+            <span>% / 年，用來調整後續年度提領金額</span>
+          </label>
+
+          <label>
+            股票平均年化報酬率
+            <input id="meanReturn" type="number" value="8" step="0.1" />
+            <span>% / 年，作為長期平均報酬假設</span>
+          </label>
+
+          <label>
+            股票年化波動率
+            <input id="volatility" type="number" value="18" step="0.1" />
+            <span>% / 年，用來產生不同市場路徑的報酬波動</span>
+          </label>
+
+          <label>
+            存活年數
+            <input id="years" type="number" value="45" min="1" />
+            <span>年，例如 45 代表檢查退休後 45 年資產是否足夠</span>
+          </label>
+
+          <label>
+            蒙地卡羅模擬次數
+            <input id="simulations" type="number" value="10000" min="100" max="100000" />
+            <span>次；建議 5,000～20,000 次即可</span>
+          </label>
+        </div>
+
+        <button id="runButton">開始試算</button>
+
+        <p class="hint">
+          說明：初始資產以「萬元」輸入；年提領率會換算成第一年提領金額，並於後續年度依通膨率調整。報酬率採常態分配隨機產生，實際市場可能出現肥尾風險，結果僅供情境估算。
+        </p>
+      </section>
+
+      <!-- 右側：結果 -->
+      <section class="card result-card">
+        <h2>試算結果</h2>
+
+        <div class="result-grid">
+          <div class="result-box">
+            <span class="result-label">成功率</span>
+            <strong id="successRate">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">失敗率</span>
+            <strong id="failureRate">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">第一年提領金額</span>
+            <strong id="firstYearWithdrawal">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">最後一年提領金額</span>
+            <strong id="lastYearWithdrawal">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">中位數最終資產</span>
+            <strong id="medianFinalAsset">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">第 5 百分位最終資產</span>
+            <strong id="p5FinalAsset">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">第 95 百分位最終資產</span>
+            <strong id="p95FinalAsset">-</strong>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 圖表區 -->
+    <section class="card chart-card">
+      <h2>資產百分位路徑圖</h2>
+      <canvas id="assetChart"></canvas>
+    </section>
+
+    <!-- 指標說明區 -->
+    <section class="card explanation-card">
+      <h2>如何解讀試算結果</h2>
+
+      <div class="explanation-grid">
+        <div class="explanation-box">
+          <h3>成功率</h3>
+          <p>
+            成功率是指所有模擬路徑中，資產撐完整個模擬年數且沒有歸零的比例。
+            例如模擬 10,000 次，其中 8,700 次撐到最後一年仍有資產，成功率就是 87%。
+          </p>
+        </div>
+
+        <div class="explanation-box">
+          <h3>失敗率</h3>
+          <p>
+            失敗率是指退休期間資產曾經歸零的比例。只要在模擬年限內某一年資產歸零，該路徑就算失敗。
+          </p>
+        </div>
+
+        <div class="explanation-box">
+          <h3>P5、P25、P50、P75、P95</h3>
+          <p>
+            這些是百分位數。程式會把每一年所有模擬資產金額由低到高排序，再取出不同位置的結果。
+            P5 代表偏悲觀情境，P50 是中位數情境，P95 則是偏樂觀情境。
+          </p>
+        </div>
+
+        <div class="explanation-box">
+          <h3>提領金額與通膨</h3>
+          <p>
+            第一年提領金額會由「初始資產 × 年提領率」計算。後續年度提領金額會依通膨率逐年提高，
+            公式為：第 N 年提領金額 = 第一年提領金額 × (1 + 通膨率)<sup>N-1</sup>。
+          </p>
+        </div>
+      </div>
+
+      <div class="interpretation-note">
+        <strong>判讀重點：</strong>
+        主要看成功率、P5 與 P50。成功率用來判斷退休方案是否容易撐完整段期間；P5 用來觀察壞情境下資產是否過早歸零；P50 則代表一般情境下的資產趨勢。P95 屬於高度樂觀結果，不宜作為主要退休依據。
+      </div>
+    </section>
+
+
+    <footer>
+      <p>
+        此工具僅為退休資產情境模擬，不構成投資建議。
+      </p>
+      <p><a class="footer-link" href="https://lanvtand0050.github.io/privacy.html">隱私權政策</a></p>
+    </footer>
+  </div>
+
+  <!-- 載入主要 JavaScript -->
+  <script src="script.js?v=20260616-2"></script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>錯過最佳交易日成本試算器｜FIRE 財務試算工具箱</title>
+  <meta name="description" content="使用隨機日報酬模擬，估算長期投資中若因擇時進出而錯過最佳上漲日，期末資產可能少多少。" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://lanvtand0050.github.io/fire-calculators/tools/timing-cost/" />
+  <script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2613276287890532"
+    crossorigin="anonymous"
+  ></script>
+  <link rel="stylesheet" href="../../style.css?v=20260620-3" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a class="back-link" href="../../">← 回工具箱首頁</a>
+      <h1>錯過最佳交易日成本試算器</h1>
+      <p>
+        模擬長期投資中錯過最佳上漲日的成本，量化擇時進出可能造成的資產落差。
+      </p>
+    </header>
+
+    <main class="layout">
+      <section class="card input-card">
+        <h2>輸入參數</h2>
+
+        <div class="form-grid">
+          <label>
+            初始投資金額
+            <input id="initialAssetWan" type="number" value="100" min="0" step="1" />
+            <span>萬元，例如 100 萬請輸入 100</span>
+          </label>
+
+          <label>
+            每月投入金額
+            <input id="monthlyContributionWan" type="number" value="3" min="0" step="0.1" />
+            <span>萬元 / 月，例如每月 3 萬請輸入 3</span>
+          </label>
+
+          <label>
+            投資年數
+            <input id="investmentYears" type="number" value="20" min="1" max="60" step="1" />
+            <span>年；用來模擬長期持有期間</span>
+          </label>
+
+          <label>
+            預期年化報酬率
+            <input id="annualReturnRate" type="number" value="7" step="0.1" />
+            <span>% / 年，作為長期平均報酬假設</span>
+          </label>
+
+          <label>
+            年化波動率
+            <input id="annualVolatility" type="number" value="18" min="0" step="0.1" />
+            <span>% / 年，用來產生每日報酬波動</span>
+          </label>
+
+          <label>
+            蒙地卡羅模擬次數
+            <input id="simulations" type="number" value="2000" min="100" max="20000" step="100" />
+            <span>次；日報酬模擬較耗時，建議 1,000～5,000 次</span>
+          </label>
+        </div>
+
+        <button id="calculateButton">開始試算</button>
+
+        <p class="hint">
+          說明：本工具以每年 252 個交易日進行隨機日報酬模擬，並比較全程持有與錯過最佳 5、10、20 個交易日的期末資產差異。
+        </p>
+      </section>
+
+      <section class="card result-card">
+        <h2>試算結果</h2>
+
+        <div class="result-highlight">
+          <span>錯過最佳 10 天的 P50 成本</span>
+          <strong id="miss10Cost">-</strong>
+        </div>
+
+        <div class="result-grid">
+          <div class="result-box">
+            <span class="result-label">全程持有 P50 期末資產</span>
+            <strong id="holdP50">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">錯過最佳 5 天 P50</span>
+            <strong id="miss5P50">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">錯過最佳 10 天 P50</span>
+            <strong id="miss10P50">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">錯過最佳 20 天 P50</span>
+            <strong id="miss20P50">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">錯過最佳 10 天損失比例</span>
+            <strong id="miss10LossPercent">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">全程持有勝出比例</span>
+            <strong id="holdAdvantageRate">-</strong>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="card chart-card">
+      <h2>錯過最佳交易日的期末資產比較</h2>
+      <p class="section-intro">
+        此圖顯示全程持有與錯過最佳 5、10、20 天在 P10、P50、P90 情境下的期末資產差異。錯過的最佳交易日越多，通常期末資產越低。
+      </p>
+      <canvas id="timingCostChart"></canvas>
+    </section>
+
+    <section class="card table-card">
+      <h2>期末資產百分位比較</h2>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>情境</th>
+              <th>P10</th>
+              <th>P50</th>
+              <th>P90</th>
+              <th>P50 差距</th>
+            </tr>
+          </thead>
+          <tbody id="comparisonTableBody">
+            <tr>
+              <td colspan="5">請先輸入參數並開始試算。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card explanation-card">
+      <h2>如何解讀</h2>
+      <div class="explanation-grid">
+        <div class="explanation-box">
+          <h3>最佳交易日</h3>
+          <p>最佳交易日是每次模擬路徑中日報酬最高的幾天。錯過最佳 10 天代表這些最高日報酬沒有參與到投資成長。</p>
+        </div>
+        <div class="explanation-box">
+          <h3>擇時成本</h3>
+          <p>擇時進出最大的風險之一，是市場最好的上漲日常常難以事前辨識。若剛好空手錯過，長期複利結果可能明顯落後。</p>
+        </div>
+        <div class="explanation-box">
+          <h3>P10 / P50 / P90</h3>
+          <p>P50 是中位數情境；P10 是較保守情境；P90 是較樂觀情境。這些數字用來觀察不同市場路徑下的結果分布。</p>
+        </div>
+        <div class="explanation-box">
+          <h3>簡化限制</h3>
+          <p>本工具使用隨機日報酬模擬，不代表任何特定市場歷史結果，也未考慮稅務、交易成本、現金利息或實際停損停利策略。</p>
+        </div>
+      </div>
+      <div class="interpretation-note">
+        判讀建議：這個工具不是要證明永遠不能調整配置，而是提醒頻繁擇時可能付出的機會成本。若沒有明確紀律，長期持有通常比猜測進出場時間更穩健。
+      </div>
+    </section>
+
+    <footer>
+      <p>此工具僅為財務情境試算，不構成投資建議。</p>
+      <p><a class="footer-link" href="https://lanvtand0050.github.io/privacy.html">隱私權政策</a></p>
+    </footer>
+  </div>
+
+  <script src="script.js?v=20260619-3"></script>
+</body>
+</html>

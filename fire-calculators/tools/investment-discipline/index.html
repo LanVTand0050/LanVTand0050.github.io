@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>投資決策紀律檢查表｜FIRE 財務試算工具箱</title>
+  <meta name="description" content="在買進、賣出或調整投資部位前，檢查資金安全、投資計畫、情緒影響與執行條件，降低追高、恐慌賣出及偏離計畫的風險。" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://lanvtand0050.github.io/fire-calculators/tools/investment-discipline/" />
+  <script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2613276287890532"
+    crossorigin="anonymous"
+  ></script>
+  <link rel="stylesheet" href="../../style.css?v=20260620-3" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a class="back-link" href="../../">← 回工具箱首頁</a>
+      <h1>投資決策紀律檢查表</h1>
+      <p>準備買進、賣出或調整部位前，先確認這次決定是否符合原訂計畫，而不是被市場情緒推著走。</p>
+    </header>
+
+    <main class="layout discipline-layout">
+      <section class="card input-card">
+        <h2>交易前檢查</h2>
+        <p class="section-intro">請只勾選目前確定符合的敘述。沒有把握的項目先不要勾選。</p>
+
+        <div class="checklist-group">
+          <h3>資金安全</h3>
+          <label class="checklist-option critical-option">
+            <input id="emergencyFund" type="checkbox" />
+            <span><strong>已有足夠的緊急預備金</strong><small>這次投資不會動用日常生活與緊急支出所需資金。</small></span>
+          </label>
+          <label class="checklist-option critical-option">
+            <input id="longTermMoney" type="checkbox" />
+            <span><strong>這筆資金至少三年內不需使用</strong><small>不會因買房、醫療、教育或其他已知支出被迫在低點賣出。</small></span>
+          </label>
+          <label class="checklist-option critical-option">
+            <input id="drawdownCapacity" type="checkbox" />
+            <span><strong>即使短期下跌 30%，生活也不受影響</strong><small>能承受帳面虧損，且不必靠賣出這筆投資支付生活費。</small></span>
+          </label>
+        </div>
+
+        <div class="checklist-group">
+          <h3>依照計畫</h3>
+          <label class="checklist-option">
+            <input id="writtenPlan" type="checkbox" />
+            <span><strong>這次操作符合原先寫下的投資計畫</strong><small>買進、加碼、減碼或再平衡都有事先設定的依據。</small></span>
+          </label>
+          <label class="checklist-option">
+            <input id="allocationFit" type="checkbox" />
+            <span><strong>操作後仍符合目標資產配置</strong><small>已確認這次交易不會讓單一市場或資產承擔過高比重。</small></span>
+          </label>
+          <label class="checklist-option">
+            <input id="holdingPeriod" type="checkbox" />
+            <span><strong>已設定合理的持有期間</strong><small>不會用短期漲跌檢驗原本需要長期實現的投資策略。</small></span>
+          </label>
+        </div>
+
+        <div class="checklist-group">
+          <h3>情緒與刺激</h3>
+          <label class="checklist-option">
+            <input id="independentDecision" type="checkbox" />
+            <span><strong>不是只因新聞、社群或他人推薦而交易</strong><small>已自行理解理由，而不是害怕錯過機會才採取行動。</small></span>
+          </label>
+          <label class="checklist-option">
+            <input id="notChasing" type="checkbox" />
+            <span><strong>不是因近期大漲追買或大跌恐慌賣出</strong><small>如果今天看不到市場價格，仍會做出相同決定。</small></span>
+          </label>
+        </div>
+
+        <div class="checklist-group">
+          <h3>執行條件</h3>
+          <label class="checklist-option">
+            <input id="understandsProduct" type="checkbox" />
+            <span><strong>了解標的風險、費用與可能虧損</strong><small>知道投資內容、費用率、交易成本及主要風險來源。</small></span>
+          </label>
+          <label class="checklist-option">
+            <input id="exitRule" type="checkbox" />
+            <span><strong>已寫下未來調整或賣出的條件</strong><small>條件來自配置或需求變化，而不是臨時猜測市場高低點。</small></span>
+          </label>
+        </div>
+
+        <button id="checkButton" type="button">查看檢查結果</button>
+        <button id="resetButton" class="secondary-button" type="button">清除全部勾選</button>
+        <p class="hint">建議在新買進、加碼、賣出、更換標的或偏離原計畫前使用。固定依計畫執行的定期定額，不必每次重填。</p>
+      </section>
+
+      <section class="card result-card discipline-result-card" aria-live="polite">
+        <h2>檢查結果</h2>
+        <div id="disciplineStatus" class="discipline-status neutral">
+          <span>目前狀態</span>
+          <strong>尚未完成檢查</strong>
+          <p>勾選符合的敘述，再查看這次決策需要注意的地方。</p>
+        </div>
+
+        <div class="discipline-summary">
+          <div>
+            <span>已確認項目</span>
+            <strong id="confirmedCount">0 / 10</strong>
+          </div>
+          <div>
+            <span>關鍵警示</span>
+            <strong id="criticalCount">-</strong>
+          </div>
+          <div>
+            <span>一般警示</span>
+            <strong id="warningCount">-</strong>
+          </div>
+        </div>
+
+        <div class="discipline-feedback">
+          <h3>需要確認的項目</h3>
+          <ul id="warningList" class="warning-list">
+            <li class="empty-feedback">完成檢查後，這裡會列出尚未確認的事項。</li>
+          </ul>
+        </div>
+
+        <div class="discipline-feedback">
+          <h3>下一步</h3>
+          <p id="nextStep">先完成左側檢查，不需要急著交易。</p>
+        </div>
+
+        <div class="interpretation-note discipline-note">
+          這份結果只評估決策流程是否完整，不代表投資標的適合，也不保證獲利。未來報酬率仍有機率變化。
+        </div>
+      </section>
+    </main>
+
+    <section class="card explanation-card">
+      <h2>何時使用</h2>
+      <div class="explanation-grid">
+        <div class="explanation-box">
+          <h3>準備增加部位</h3>
+          <p>買進新標的、單筆加碼或因市場上漲而想追買之前，確認資金用途與配置仍符合計畫。</p>
+        </div>
+        <div class="explanation-box">
+          <h3>準備減少部位</h3>
+          <p>市場下跌、新聞引發不安或臨時想停損時，先辨認是風險條件改變，還是短期情緒反應。</p>
+        </div>
+        <div class="explanation-box">
+          <h3>準備更換標的</h3>
+          <p>更換 ETF、基金或投資策略前，比較費用、風險與原本持有理由，避免只追逐近期績效。</p>
+        </div>
+        <div class="explanation-box">
+          <h3>準備偏離計畫</h3>
+          <p>任何不在原定期定額、再平衡或資產配置規則內的操作，都值得先停下來檢查一次。</p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>此工具僅協助整理投資決策流程，不構成投資建議。</p>
+      <p><a class="footer-link" href="https://lanvtand0050.github.io/privacy.html">隱私權政策</a></p>
+    </footer>
+  </div>
+
+  <script src="script.js?v=20260619-1"></script>
+</body>
+</html>

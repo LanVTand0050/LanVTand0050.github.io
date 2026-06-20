@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>勞保年金試算器｜FIRE 財務試算工具箱</title>
+  <meta name="description" content="輸入平均月投保薪資、勞保年資與預計請領年齡，依勞保老年年金兩種公式擇優估算月領金額與年領金額。" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://lanvtand0050.github.io/fire-calculators/tools/labor-insurance-annuity/" />
+  <script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2613276287890532"
+    crossorigin="anonymous"
+  ></script>
+  <link rel="stylesheet" href="../../style.css?v=20260620-3" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a class="back-link" href="../../">← 回工具箱首頁</a>
+      <h1>勞保年金試算器</h1>
+      <p>
+        輸入平均月投保薪資、勞保年資與預計請領年齡，粗估勞保老年年金每月可領金額。
+      </p>
+    </header>
+
+    <main class="layout">
+      <section class="card input-card">
+        <h2>輸入參數</h2>
+
+        <div class="form-grid">
+          <label>
+            平均月投保薪資
+            <input id="averageMonthlySalary" type="number" value="45800" min="0" step="100" />
+            <span>元，例如 45,800 元請輸入 45800</span>
+          </label>
+
+          <label>
+            勞保年資
+            <input id="insuranceYears" type="number" value="30" min="0" step="0.1" />
+            <span>年，例如 30 年請輸入 30</span>
+          </label>
+
+          <label>
+            預計請領年齡
+            <input id="claimAge" type="number" value="65" min="60" max="70" step="1" />
+            <span>歲；本工具以 65 歲作為法定請領年齡的簡化估算基準</span>
+          </label>
+        </div>
+
+        <button id="calculateButton">開始試算</button>
+
+        <p class="hint">
+          說明：本工具只估算勞保老年年金，不包含勞退、國民年金、一次金、眷屬加給或其他給付。
+        </p>
+      </section>
+
+      <section class="card result-card">
+        <h2>試算結果</h2>
+
+        <div class="result-highlight">
+          <span>調整後預估月領金額</span>
+          <strong id="adjustedMonthlyAmount">-</strong>
+        </div>
+
+        <div class="result-grid">
+          <div class="result-box">
+            <span class="result-label">公式一月領金額</span>
+            <strong id="formulaOneAmount">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">公式二月領金額</span>
+            <strong id="formulaTwoAmount">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">擇優月領金額</span>
+            <strong id="baseMonthlyAmount">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">提前 / 延後調整比例</span>
+            <strong id="adjustmentRate">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">預估年領金額</span>
+            <strong id="annualAmount">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">年資資格提醒</span>
+            <strong id="eligibilityNote">-</strong>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="card chart-card">
+      <h2>不同請領年齡累積領取金額比較</h2>
+      <p class="section-intro">
+        此圖比較 60、65、70 歲開始請領時，到不同年齡累積領取的總金額。它不代表哪個選擇一定較好，實際選擇仍需考量健康狀況、現金流需求與制度規定。此圖假設三種請領年齡使用相同年資與平均月投保薪資；若延後請領期間持續加保，實際年資與給付金額可能增加。此圖未扣除延後請領期間可能需繳納的勞保保費，也未計入延後期間可能增加的年資或投保薪資變化。
+      </p>
+      <canvas id="annuityCumulativeChart"></canvas>
+    </section>
+
+    <section class="card explanation-card">
+      <h2>假設與名詞說明</h2>
+      <div class="explanation-grid">
+        <div class="explanation-box">
+          <h3>平均月投保薪資</h3>
+          <p>這不是實際月薪，而是用於勞保給付計算的投保薪資平均值。本工具由使用者自行輸入估算值。</p>
+        </div>
+
+        <div class="explanation-box">
+          <h3>勞保年資</h3>
+          <p>指參加勞工保險累計年資。老年年金通常需保險年資合計滿 15 年；未滿 15 年者可能不是請領老年年金。</p>
+        </div>
+
+        <div class="explanation-box">
+          <h3>公式一</h3>
+          <p>公式一 = 平均月投保薪資 × 勞保年資 × 0.775% + 3,000 元。</p>
+        </div>
+
+        <div class="explanation-box">
+          <h3>公式二</h3>
+          <p>公式二 = 平均月投保薪資 × 勞保年資 × 1.55%。本工具會比較公式一與公式二，取較高者作為擇優月領金額。</p>
+        </div>
+
+        <div class="explanation-box">
+          <h3>提前 / 延後請領</h3>
+          <p>本工具以 65 歲作為法定請領年齡的簡化估算基準。每提前 1 年減給 4%，最多減 20%；每延後 1 年增給 4%，最多增 20%。</p>
+        </div>
+
+        <div class="explanation-box">
+          <h3>簡化估算提醒</h3>
+          <p>本工具以 65 歲作為法定請領年齡的簡化估算基準；實際請領資格、法定請領年齡與給付金額，請以勞保局核定為準。</p>
+        </div>
+      </div>
+      <div class="interpretation-note">
+        判讀建議：這個工具適合快速估算勞保老年年金可能提供的退休現金流。若要做完整退休規劃，仍應搭配個人資產、勞退、其他收入來源與實際請領資格一起評估。
+      </div>
+    </section>
+
+    <footer>
+      <p>此工具僅為勞保年金簡化試算，不構成官方給付核定。</p>
+      <p><a class="footer-link" href="https://lanvtand0050.github.io/privacy.html">隱私權政策</a></p>
+    </footer>
+  </div>
+
+  <script src="script.js?v=20260619-1"></script>
+</body>
+</html>

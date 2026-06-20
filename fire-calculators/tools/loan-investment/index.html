@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>貸款投資比較器｜FIRE 財務試算工具箱</title>
+  <meta name="description" content="輸入貸款金額、貸款利率、貸款年限、預期報酬率與波動率，比較借款投入市場與不借款定期定額投資在貸款期間結束時的資產差異。" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://lanvtand0050.github.io/fire-calculators/tools/loan-investment/" />
+  <script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2613276287890532"
+    crossorigin="anonymous"
+  ></script>
+  <link rel="stylesheet" href="../../style.css?v=20260620-3" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a class="back-link" href="../../">← 回工具箱首頁</a>
+      <h1>貸款投資比較器</h1>
+      <p>
+        比較「借一筆錢投入市場」與「不借款、把同樣每月現金流拿去定期定額」在貸款期間結束時的結果。
+      </p>
+    </header>
+
+    <main class="layout">
+      <section class="card input-card">
+        <h2>輸入參數</h2>
+
+        <div class="form-grid">
+          <label>
+            貸款金額
+            <input id="loanAmountWan" type="number" value="300" min="0" step="1" />
+            <span>萬元，例如貸款 300 萬請輸入 300</span>
+          </label>
+
+          <label>
+            貸款年利率
+            <input id="loanAnnualRate" type="number" value="3" min="0" step="0.1" />
+            <span>% / 年，用來計算本息平均攤還的每月還款</span>
+          </label>
+
+          <label>
+            貸款年限
+            <input id="loanYears" type="number" value="7" min="1" max="40" step="1" />
+            <span>年，例如信貸 7 年請輸入 7</span>
+          </label>
+
+          <div class="preview-box">
+            <span>預估每月還款</span>
+            <strong id="monthlyPaymentPreview">-</strong>
+            <small>由貸款金額、貸款年利率與貸款年限自動計算。</small>
+          </div>
+
+          <label>
+            預期年化報酬率
+            <input id="annualReturnRate" type="number" value="8" step="0.1" />
+            <span>% / 年，作為長期平均報酬假設</span>
+          </label>
+
+          <label>
+            年化波動率
+            <input id="annualVolatility" type="number" value="18" min="0" step="0.1" />
+            <span>% / 年，用來產生不同市場路徑的報酬波動</span>
+          </label>
+
+          <label>
+            每月額外投入
+            <input id="monthlyExtraContributionWan" type="number" value="0" min="0" step="0.1" />
+            <span>萬元 / 月；兩種方案都會加入這筆額外投入</span>
+          </label>
+
+          <label>
+            蒙地卡羅模擬次數
+            <input id="simulations" type="number" value="10000" min="100" max="100000" step="100" />
+            <span>次；建議 5,000～20,000 次即可</span>
+          </label>
+        </div>
+
+        <button id="calculateButton">開始試算</button>
+
+        <p class="hint">
+          說明：比較期間固定為貸款年限。貸款方案會在期初把貸款金額投入市場，並於貸款期間每月還款；不貸款方案則在同期間把同樣的每月還款拿去定期定額投資。這不是借款建議，只用來估算槓桿投資的風險與機會成本。
+        </p>
+      </section>
+
+      <section class="card result-card">
+        <h2>試算結果</h2>
+
+        <div class="result-highlight">
+          <span>貸款投資勝率</span>
+          <strong id="advantageRate">-</strong>
+        </div>
+
+        <div class="result-grid">
+          <div class="result-box">
+            <span class="result-label">每月還款</span>
+            <strong id="monthlyPayment">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">貸款總利息</span>
+            <strong id="totalInterest">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">貸款方案 P50 淨資產</span>
+            <strong id="leveragedP50">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">不貸款方案 P50 資產</span>
+            <strong id="baselineP50">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">P50 淨資產差異</span>
+            <strong id="differenceP50">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">損益兩平年化報酬率</span>
+            <strong id="breakEvenReturn">-</strong>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="card chart-card">
+      <h2>淨資產差異百分位圖</h2>
+      <p class="section-intro">
+        此圖顯示「貸款投資方案淨資產 − 不貸款定期定額方案資產」的分布。高於 0 代表貸款投資方案較高，低於 0 代表不貸款方案較高。
+      </p>
+      <canvas id="loanComparisonChart"></canvas>
+    </section>
+
+    <section class="card table-card">
+      <h2>關鍵百分位比較</h2>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>指標</th>
+              <th>貸款方案淨資產</th>
+              <th>不貸款方案資產</th>
+              <th>差異</th>
+            </tr>
+          </thead>
+          <tbody id="comparisonTableBody">
+            <tr>
+              <td colspan="4">請先輸入參數並開始試算。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card explanation-card">
+      <h2>如何解讀</h2>
+      <div class="explanation-grid">
+        <div class="explanation-box">
+          <h3>比較基準</h3>
+          <p>比較期間固定為貸款年限。不貸款方案會把「貸款方案需要支付的每月還款」拿去定期定額投資，因此兩邊使用相同每月現金流。</p>
+        </div>
+        <div class="explanation-box">
+          <h3>貸款方案淨資產</h3>
+          <p>因為比較期間等於貸款年限，期末貸款已清償，貸款方案淨資產就是期末投資資產。</p>
+        </div>
+        <div class="explanation-box">
+          <h3>貸款投資勝率</h3>
+          <p>勝率代表在所有模擬路徑中，貸款方案期末淨資產高於不貸款方案的比例。勝率高不代表風險低，仍需觀察 P10 或更差情境。</p>
+        </div>
+        <div class="explanation-box">
+          <h3>P10 / P50 / P90</h3>
+          <p>P50 是中位數情境，代表一半模擬結果高於此值、一半低於此值。P10 是較保守情境，代表約 10% 結果低於此值；P90 則是較樂觀情境，代表約 90% 結果低於此值。</p>
+        </div>
+        <div class="explanation-box">
+          <h3>損益兩平報酬率</h3>
+          <p>這是固定報酬假設下，讓兩種方案期末結果相同的年化報酬率。若預期報酬率低於此值，貸款投資通常不具優勢。</p>
+        </div>
+      </div>
+      <div class="interpretation-note">
+        判讀建議：先看每月還款是否造成現金流壓力，再看 P50 差異與 P10 差異。若 P50 優勢有限，但 P10 虧損很大，代表槓桿承擔的下行情境可能不值得。
+      </div>
+    </section>
+
+    <footer>
+      <p>此工具僅為財務情境試算，不構成投資或借貸建議。</p>
+      <p><a class="footer-link" href="https://lanvtand0050.github.io/privacy.html">隱私權政策</a></p>
+    </footer>
+  </div>
+
+  <script src="script.js?v=20260617-1"></script>
+</body>
+</html>

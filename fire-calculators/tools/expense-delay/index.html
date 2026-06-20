@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>費用率讓退休延後多久試算器｜FIRE 財務試算工具箱</title>
+  <meta name="description" content="輸入目前資產、每月投入、退休目標、預期報酬率與不同費用率，估算費用率差異會讓退休目標延後多久。" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://lanvtand0050.github.io/fire-calculators/tools/expense-delay/" />
+  <script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2613276287890532"
+    crossorigin="anonymous"
+  ></script>
+  <link rel="stylesheet" href="../../style.css?v=20260620-3" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a class="back-link" href="../../">← 回工具箱首頁</a>
+      <h1>費用率讓退休延後多久試算器</h1>
+      <p>
+        比較低費用率與高費用率方案，估算長期成本差異會讓退休目標延後多久。
+      </p>
+    </header>
+
+    <main class="layout">
+      <section class="card input-card">
+        <h2>輸入參數</h2>
+
+        <div class="form-grid">
+          <label>
+            目前可投資資產
+            <input id="currentAssetWan" type="number" value="500" min="0" step="1" />
+            <span>萬元，例如 500 萬請輸入 500</span>
+          </label>
+
+          <label>
+            每月投入金額
+            <input id="monthlyContributionWan" type="number" value="3" min="0" step="0.1" />
+            <span>萬元 / 月，例如每月 3 萬請輸入 3</span>
+          </label>
+
+          <label>
+            退休目標資產
+            <input id="targetAssetWan" type="number" value="3000" min="1" step="1" />
+            <span>萬元，例如 3,000 萬請輸入 3000</span>
+          </label>
+
+          <label>
+            投資年數
+            <input id="projectionYears" type="number" value="30" min="1" max="80" step="1" />
+            <span>年；用來比較指定年數後的期末資產差距</span>
+          </label>
+
+          <label>
+            預期年化總報酬率
+            <input id="grossReturnRate" type="number" value="7" step="0.1" />
+            <span>% / 年；尚未扣除費用率前的假設報酬</span>
+          </label>
+
+          <label>
+            低費用率
+            <input id="lowExpenseRate" type="number" value="0.2" min="0" step="0.01" />
+            <span>% / 年，例如低成本 ETF 0.2%</span>
+          </label>
+
+          <label>
+            高費用率
+            <input id="highExpenseRate" type="number" value="1.2" min="0" step="0.01" />
+            <span>% / 年，例如主動基金或高費用商品 1.2%</span>
+          </label>
+        </div>
+
+        <button id="calculateButton">開始試算</button>
+
+        <p class="hint">
+          說明：本工具使用固定年化報酬率進行簡化估算，將費用率視為每年從總報酬中扣除。實際市場報酬會波動，費用也可能因商品與交易方式不同而改變。
+        </p>
+      </section>
+
+      <section class="card result-card">
+        <h2>試算結果</h2>
+
+        <div class="result-highlight">
+          <span>高費用率讓退休目標延後</span>
+          <strong id="delayResult">-</strong>
+        </div>
+
+        <div class="result-grid">
+          <div class="result-box">
+            <span class="result-label">低費用率達標時間</span>
+            <strong id="lowExpenseTargetTime">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">高費用率達標時間</span>
+            <strong id="highExpenseTargetTime">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">低費用期末資產</span>
+            <strong id="lowExpenseFinalAsset">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">高費用期末資產</span>
+            <strong id="highExpenseFinalAsset">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">費用造成的期末差距</span>
+            <strong id="finalAssetDifference">-</strong>
+          </div>
+
+          <div class="result-box">
+            <span class="result-label">高費用少掉的資產比例</span>
+            <strong id="dragPercent">-</strong>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="card chart-card">
+      <h2>低費用率 vs 高費用率資產曲線</h2>
+      <p class="section-intro">
+        圖中兩條線使用相同投入金額與總報酬假設，差別只在費用率。時間越長，費用率差異造成的複利落差通常越明顯。
+      </p>
+      <canvas id="expenseDelayChart"></canvas>
+    </section>
+
+    <section class="card table-card">
+      <h2>年度資產差距</h2>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>年度</th>
+              <th>低費用資產</th>
+              <th>高費用資產</th>
+              <th>差距</th>
+            </tr>
+          </thead>
+          <tbody id="projectionTableBody">
+            <tr>
+              <td colspan="4">請先輸入參數並開始試算。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card explanation-card">
+      <h2>如何解讀</h2>
+      <div class="explanation-grid">
+        <div class="explanation-box">
+          <h3>費用率不是只少一年</h3>
+          <p>費用率會每年持續扣除報酬，也會讓被扣掉的金額失去未來複利機會，因此長期差距通常比直覺的一年成本更大。</p>
+        </div>
+        <div class="explanation-box">
+          <h3>淨報酬率</h3>
+          <p>本工具使用「預期年化總報酬率 - 費用率」作為簡化淨報酬率。若總報酬為 7%、費用率為 1%，則淨報酬率以 6% 估算。</p>
+        </div>
+        <div class="explanation-box">
+          <h3>退休延後時間</h3>
+          <p>退休延後時間是比較兩種費用率達到同一退休目標資產所需時間的差距。若高費用方案未能在 100 年內達標，會顯示未達標。</p>
+        </div>
+        <div class="explanation-box">
+          <h3>簡化限制</h3>
+          <p>本工具未模擬市場波動、稅務、交易成本、匯率或商品追蹤誤差。它主要用來量化「可控制的費用率」對長期資產累積的影響。</p>
+        </div>
+      </div>
+      <div class="interpretation-note">
+        判讀建議：若高費用率讓退休目標延後很多，即使該商品看起來只多 0.5% 或 1% 成本，也應重新評估它是否提供足夠價值。
+      </div>
+    </section>
+
+    <footer>
+      <p>此工具僅為財務情境試算，不構成投資建議。</p>
+      <p><a class="footer-link" href="https://lanvtand0050.github.io/privacy.html">隱私權政策</a></p>
+    </footer>
+  </div>
+
+  <script src="script.js?v=20260619-2"></script>
+</body>
+</html>

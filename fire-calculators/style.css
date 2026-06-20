@@ -1,0 +1,823 @@
+/* 全站基本設定 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
+  background: #f4f6f8;
+  color: #1f2937;
+}
+
+/* 主容器 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* 頁首 */
+header {
+  margin-bottom: 24px;
+}
+
+header h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+}
+
+header p {
+  margin: 0;
+  color: #6b7280;
+}
+
+/* 主要左右版面 */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+/* 卡片樣式 */
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+}
+
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+/* 輸入區 */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+label {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+label span {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #374151;
+  font-weight: 600;
+}
+
+.radio-option input {
+  width: auto;
+}
+
+
+/* 提領金額預覽 */
+.preview-box {
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #eef6ff;
+  border: 1px solid #bfdbfe;
+}
+
+.preview-box span {
+  display: block;
+  margin-bottom: 6px;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.preview-box strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #0f172a;
+  font-size: 22px;
+}
+
+.preview-box small {
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* 按鈕 */
+button {
+  width: 100%;
+  margin-top: 24px;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 12px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+button:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.secondary-button,
+.icon-button {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.secondary-button:hover,
+.icon-button:hover {
+  background: #cbd5e1;
+}
+
+.secondary-button {
+  margin-top: 16px;
+}
+
+.icon-button {
+  width: 40px;
+  margin-top: 0;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* 提示文字 */
+.hint {
+  margin-top: 16px;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* 結果區 */
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.result-box {
+  padding: 18px;
+  border-radius: 14px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+}
+
+.result-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.result-box strong {
+  font-size: 26px;
+  color: #111827;
+}
+
+/* 圖表區 */
+.chart-card {
+  margin-top: 24px;
+}
+
+#assetChart {
+  width: 100%;
+  max-height: 420px;
+}
+
+/* 頁尾 */
+footer {
+  margin-top: 24px;
+  color: #6b7280;
+  font-size: 14px;
+  text-align: center;
+}
+
+
+
+/* 指標說明區 */
+.explanation-card {
+  margin-top: 24px;
+}
+
+.explanation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.explanation-box {
+  padding: 18px;
+  border-radius: 14px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+}
+
+.explanation-box h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  color: #111827;
+}
+
+.explanation-box p {
+  margin: 0;
+  color: #4b5563;
+  line-height: 1.7;
+}
+
+.interpretation-note {
+  margin-top: 18px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #431407;
+  line-height: 1.7;
+}
+
+/* 手機版 */
+@media (max-width: 800px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  header h1 {
+    font-size: 26px;
+  }
+
+  .container {
+    padding: 16px;
+  }
+
+  .explanation-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 首頁工具箱樣式 */
+.home-hero {
+  padding: 28px 0 8px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.tool-catalog {
+  display: grid;
+  gap: 40px;
+}
+
+.tool-category {
+  --category-accent: #2563eb;
+  min-width: 0;
+}
+
+.category-retirement {
+  --category-accent: #047857;
+}
+
+.category-execution {
+  --category-accent: #1d4ed8;
+}
+
+.category-risk {
+  --category-accent: #b45309;
+}
+
+.category-heading {
+  margin-bottom: 16px;
+  padding-left: 14px;
+  border-left: 4px solid var(--category-accent);
+}
+
+.category-heading h2 {
+  margin: 0 0 6px;
+  color: var(--category-accent);
+  font-size: 24px;
+}
+
+.category-heading p {
+  margin: 0;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.tool-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 225px;
+  border-top: 3px solid var(--category-accent);
+}
+
+.tool-card h2,
+.tool-card h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #111827;
+  font-size: 22px;
+}
+
+.tool-card p {
+  color: #4b5563;
+  line-height: 1.7;
+}
+
+.tool-card.muted {
+  opacity: 0.78;
+}
+
+.tool-status {
+  align-self: flex-start;
+  margin-bottom: 14px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.tool-status.available {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.tool-status.planned {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.tool-button {
+  display: inline-block;
+  margin-top: auto;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: #2563eb;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+  text-align: center;
+}
+
+.tool-button:hover {
+  background: #1d4ed8;
+}
+
+.roadmap-card {
+  margin-top: 24px;
+}
+
+.roadmap-card p {
+  color: #4b5563;
+  line-height: 1.7;
+}
+
+.roadmap-card pre {
+  overflow-x: auto;
+  padding: 16px;
+  border-radius: 12px;
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: #2563eb;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 800px) {
+  .tool-catalog {
+    gap: 32px;
+  }
+
+  .tool-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .category-heading h2 {
+    font-size: 22px;
+  }
+
+  .tool-card {
+    min-height: 0;
+  }
+}
+
+/* 退休達成年數試算器補充樣式 */
+.result-highlight {
+  padding: 22px;
+  border-radius: 16px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  margin-bottom: 16px;
+}
+
+.result-highlight span {
+  display: block;
+  margin-bottom: 8px;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.result-highlight strong {
+  display: block;
+  color: #0f172a;
+  font-size: 34px;
+  line-height: 1.2;
+}
+
+.table-card {
+  margin-top: 24px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.data-table th:first-child,
+.data-table td:first-child {
+  text-align: left;
+}
+
+.data-table th {
+  color: #475569;
+  background: #f8fafc;
+  font-weight: 700;
+}
+
+.data-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+
+/* 蒙地卡羅達成年數試算器補充樣式 */
+.section-intro {
+  margin-top: -8px;
+  margin-bottom: 20px;
+  color: #4b5563;
+  line-height: 1.7;
+}
+
+.mc-card {
+  margin-top: 24px;
+}
+
+.mc-result-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+#targetProbabilityChart {
+  width: 100%;
+  max-height: 420px;
+}
+
+#loanComparisonChart {
+  width: 100%;
+  max-height: 420px;
+}
+
+#annuityCumulativeChart {
+  width: 100%;
+  max-height: 420px;
+}
+
+#expenseDelayChart {
+  width: 100%;
+  max-height: 420px;
+}
+
+#timingCostChart {
+  width: 100%;
+  max-height: 420px;
+}
+
+.discipline-layout {
+  align-items: start;
+}
+
+.checklist-group + .checklist-group {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.checklist-group h3,
+.discipline-feedback h3 {
+  margin: 0 0 12px;
+  color: #111827;
+  font-size: 17px;
+}
+
+.checklist-option {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 13px 0;
+  border-bottom: 1px solid #f1f5f9;
+  cursor: pointer;
+}
+
+.checklist-option:last-child {
+  border-bottom: none;
+}
+
+.checklist-option input {
+  width: 20px;
+  height: 20px;
+  margin: 2px 0 0;
+  accent-color: #2563eb;
+}
+
+.checklist-option > span {
+  color: inherit;
+  font-size: 16px;
+}
+
+.checklist-option strong,
+.checklist-option small {
+  display: block;
+}
+
+.checklist-option strong {
+  color: #1f2937;
+  line-height: 1.5;
+}
+
+.checklist-option small {
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.discipline-result-card {
+  position: sticky;
+  top: 16px;
+}
+
+.discipline-status {
+  padding: 20px;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.discipline-status span,
+.discipline-summary span {
+  display: block;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.discipline-status strong {
+  display: block;
+  margin-top: 6px;
+  color: #0f172a;
+  font-size: 30px;
+}
+
+.discipline-status p {
+  margin: 8px 0 0;
+  line-height: 1.6;
+}
+
+.discipline-status.ready {
+  border-color: #86efac;
+  background: #f0fdf4;
+}
+
+.discipline-status.review {
+  border-color: #fcd34d;
+  background: #fffbeb;
+}
+
+.discipline-status.pause {
+  border-color: #fca5a5;
+  background: #fef2f2;
+}
+
+.discipline-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 18px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #e5e7eb;
+}
+
+.discipline-summary div {
+  min-width: 0;
+  padding: 14px;
+  background: #ffffff;
+}
+
+.discipline-summary strong {
+  display: block;
+  margin-top: 7px;
+  color: #111827;
+  font-size: 22px;
+}
+
+.discipline-feedback {
+  margin-top: 24px;
+}
+
+.discipline-feedback p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.7;
+}
+
+.warning-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.warning-list li {
+  padding: 12px 14px;
+  border-left: 4px solid #f59e0b;
+  background: #fffbeb;
+  color: #713f12;
+  line-height: 1.6;
+}
+
+.warning-list .critical-feedback {
+  border-left-color: #dc2626;
+  background: #fef2f2;
+  color: #7f1d1d;
+}
+
+.warning-list .all-clear-feedback {
+  border-left-color: #16a34a;
+  background: #f0fdf4;
+  color: #14532d;
+}
+
+.warning-list .empty-feedback {
+  border-left-color: #94a3b8;
+  background: #f8fafc;
+  color: #64748b;
+}
+
+.discipline-note {
+  margin-top: 24px;
+}
+
+.rebalance-mode {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.asset-editor {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.asset-editor-head,
+.asset-row {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1fr 40px;
+  gap: 10px;
+  align-items: center;
+}
+
+.asset-editor-head {
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.asset-row {
+  margin-bottom: 10px;
+}
+
+.asset-field {
+  display: grid;
+  gap: 6px;
+}
+
+.asset-field-label {
+  display: none;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+@media (max-width: 800px) {
+  .mc-result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .asset-editor-head {
+    display: none;
+  }
+
+  .asset-row {
+    grid-template-columns: 1fr;
+    padding: 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #f8fafc;
+  }
+
+  .asset-field-label {
+    display: block;
+  }
+
+  .icon-button {
+    width: 100%;
+  }
+
+  .discipline-result-card {
+    position: static;
+  }
+
+  .discipline-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+.footer-link {
+  color: #2563eb;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}
