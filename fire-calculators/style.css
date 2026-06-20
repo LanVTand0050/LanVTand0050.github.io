@@ -1,15 +1,3 @@
-/* 全站基本設定 */
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
-  background: #f4f6f8;
-  color: #1f2937;
-}
-
 /* 主容器 */
 .container {
   max-width: 1200px;
@@ -404,6 +392,11 @@ footer {
 
 .tool-button:hover {
   background: #1d4ed8;
+  color: #ffffff;
+}
+
+.tool-button:focus-visible {
+  color: #ffffff;
 }
 
 .roadmap-card {
