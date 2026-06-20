@@ -104,7 +104,6 @@ function runSimulation(inputs) {
   const differenceFinalValues = [];
   let lumpSumWins = 0;
   let dcaWins = 0;
-  let ties = 0;
 
   for (let simulation = 0; simulation < inputs.simulations; simulation++) {
     let lumpSumAsset = inputs.investmentAmount;
@@ -139,9 +138,7 @@ function runSimulation(inputs) {
     dcaFinalValues.push(dcaFinalValue);
     differenceFinalValues.push(difference);
 
-    if (Math.abs(difference) < 1) {
-      ties++;
-    } else if (difference > 0) {
+    if (difference > 0) {
       lumpSumWins++;
     } else {
       dcaWins++;
@@ -155,7 +152,6 @@ function runSimulation(inputs) {
   return {
     lumpSumWinRate: lumpSumWins / inputs.simulations,
     dcaWinRate: dcaWins / inputs.simulations,
-    tieRate: ties / inputs.simulations,
     lumpSum: buildPercentiles(lumpSumFinalValues),
     dca: buildPercentiles(dcaFinalValues),
     difference: buildPercentiles(differenceFinalValues),
@@ -216,7 +212,6 @@ function percentile(sortedValues, percentileValue) {
 function updateResults(result, inputs) {
   document.getElementById("lumpSumWinRate").textContent = formatPercent(result.lumpSumWinRate);
   document.getElementById("dcaWinRate").textContent = formatPercent(result.dcaWinRate);
-  document.getElementById("tieRate").textContent = formatPercent(result.tieRate);
   document.getElementById("lumpSumP50").textContent = formatCurrency(result.lumpSum.p50);
   document.getElementById("dcaP50").textContent = formatCurrency(result.dca.p50);
   document.getElementById("differenceP50").textContent = formatSignedCurrency(result.difference.p50);
