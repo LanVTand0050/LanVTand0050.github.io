@@ -549,6 +549,11 @@ footer {
   max-height: 420px;
 }
 
+#lumpSumDcaChart {
+  width: 100%;
+  max-height: 420px;
+}
+
 .discipline-layout {
   align-items: start;
 }

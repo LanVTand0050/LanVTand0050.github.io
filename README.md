@@ -24,6 +24,7 @@
 - 資產配置再平衡試算器
 - 貸款投資比較器
 - 錯過最佳交易日成本試算器
+- 定期定額 vs 單筆投入蒙地卡羅模擬
 
 所有試算都在使用者的瀏覽器內執行，不需要帳號、後端伺服器或資料庫。試算結果僅供情境規劃，不構成投資、借貸或保險建議。
 
@@ -51,6 +52,7 @@ LanVTand0050.github.io/
         ├── labor-insurance-annuity/
         ├── expense-delay/
         ├── timing-cost/
+        ├── lump-sum-vs-dca/
         └── investment-discipline/
 ```
 

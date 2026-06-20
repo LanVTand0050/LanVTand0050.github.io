@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>定期定額 vs 單筆投入蒙地卡羅模擬｜FIRE 財務試算工具箱</title>
+  <meta name="description" content="使用相同市場路徑比較單筆立即投入與分批定期投入，估算不同報酬情境下的勝率、期末資產與差額分布。" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://lanvtand0050.github.io/fire-calculators/tools/lump-sum-vs-dca/" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2613276287890532" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/assets/css/base.css?v=20260620-1" />
+  <link rel="stylesheet" href="../../style.css?v=20260621-1" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a class="back-link" href="../../">← 回工具箱首頁</a>
+      <h1>定期定額 vs 單筆投入蒙地卡羅模擬</h1>
+      <p>比較資金立即投入市場，或在一段期間內分批投入的可能結果。</p>
+    </header>
+
+    <main>
+      <section class="layout">
+        <div class="card">
+          <h2>輸入條件</h2>
+          <div class="form-grid">
+            <label>
+              可投入資金
+              <input id="investmentAmountWan" type="number" value="300" min="0.1" step="10" />
+              <span>萬元；兩種策略使用相同起始資金</span>
+            </label>
+
+            <label>
+              分批投入期間
+              <input id="dcaMonths" type="number" value="12" min="2" max="60" step="1" />
+              <span>月；每月月初投入等額本金</span>
+            </label>
+
+            <label>
+              總投資年數
+              <input id="investmentYears" type="number" value="10" min="1" max="60" step="1" />
+              <span>年；必須涵蓋完整分批投入期間</span>
+            </label>
+
+            <label>
+              預期年化報酬率
+              <input id="annualReturnRate" type="number" value="8" step="0.1" />
+              <span>% / 年；作為長期算術平均報酬假設</span>
+            </label>
+
+            <label>
+              年化波動率
+              <input id="annualVolatility" type="number" value="18" min="0" step="0.1" />
+              <span>% / 年；用來產生不同市場路徑</span>
+            </label>
+
+            <label>
+              尚未投入資金的年利率
+              <input id="cashAnnualRate" type="number" value="1.5" min="0" step="0.1" />
+              <span>% / 年；模擬分批期間的現金或短期存款收益</span>
+            </label>
+
+            <label>
+              模擬次數
+              <input id="simulations" type="number" value="5000" min="100" max="20000" step="100" />
+              <span>次；建議 1,000～10,000 次</span>
+            </label>
+          </div>
+
+          <div class="preview-box">
+            <span>每月分批投入本金</span>
+            <strong id="monthlyInstallmentPreview">-</strong>
+            <small>尚未投入的本金依現金利率計息，利息保留在現金部位。</small>
+          </div>
+
+          <button id="calculateButton" type="button">開始模擬</button>
+
+          <p class="hint">
+            比較的是「資金現在已經可用」時，立即投入與暫時持有現金後分批投入的差異，
+            並不是用未來薪資定期存入的情境。
+          </p>
+        </div>
+
+        <div class="card">
+          <h2>模擬結果</h2>
+          <div class="result-grid mc-result-grid">
+            <div class="result-box">
+              <span class="result-label">單筆投入勝率</span>
+              <strong id="lumpSumWinRate">-</strong>
+            </div>
+            <div class="result-box">
+              <span class="result-label">分批投入勝率</span>
+              <strong id="dcaWinRate">-</strong>
+            </div>
+            <div class="result-box">
+              <span class="result-label">單筆投入期末中位數</span>
+              <strong id="lumpSumP50">-</strong>
+            </div>
+            <div class="result-box">
+              <span class="result-label">分批投入期末中位數</span>
+              <strong id="dcaP50">-</strong>
+            </div>
+            <div class="result-box">
+              <span class="result-label">單筆減分批差額中位數</span>
+              <strong id="differenceP50">-</strong>
+            </div>
+            <div class="result-box">
+              <span class="result-label">結果相同</span>
+              <strong id="tieRate">-</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card chart-card">
+        <h2>年度資產中位數路徑</h2>
+        <p class="section-intro">分批投入曲線包含尚未投入的現金，因此兩種策略從相同總資金開始。</p>
+        <div style="height: 360px;">
+          <canvas id="lumpSumDcaChart"></canvas>
+        </div>
+      </section>
+
+      <section class="card table-card">
+        <h2>期末資產分布</h2>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>情境</th>
+                <th>單筆投入</th>
+                <th>分批投入</th>
+                <th>單筆減分批</th>
+              </tr>
+            </thead>
+            <tbody id="comparisonTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card explanation-card">
+        <h2>如何理解結果</h2>
+        <div class="explanation-grid">
+          <div class="explanation-box">
+            <h3>為何使用相同路徑</h3>
+            <p>每次模擬讓兩種策略經歷完全相同的市場報酬，差異只來自投入時點與現金收益。</p>
+          </div>
+          <div class="explanation-box">
+            <h3>勝率不等於適合度</h3>
+            <p>單筆投入可能提高參與市場的時間；分批投入則可能降低投入後立即下跌的心理與時點壓力。</p>
+          </div>
+          <div class="explanation-box">
+            <h3>報酬模型</h3>
+            <p>由年化平均與波動率校準對數常態參數，再逐月產生市場報酬；模型不包含肥尾、相關性改變或制度事件。</p>
+          </div>
+          <div class="explanation-box">
+            <h3>未納入項目</h3>
+            <p>未考慮稅務、交易成本、匯率、商品追蹤誤差、現金利率變動與投資人中途改變計畫。</p>
+          </div>
+        </div>
+        <p class="interpretation-note">判讀建議：同時觀察勝率、P10 下行情境與差額分布，不要只依期末中位數選擇策略。</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>此工具僅為財務情境模擬，不構成投資建議。</p>
+      <p><a class="footer-link" href="https://lanvtand0050.github.io/privacy.html">隱私權政策</a></p>
+    </footer>
+  </div>
+
+  <script src="script.js?v=20260621-1"></script>
+</body>
+</html>
+
