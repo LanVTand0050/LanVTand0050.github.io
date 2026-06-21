@@ -13,12 +13,25 @@
     crossorigin="anonymous"
   ></script>
   <link rel="stylesheet" href="/assets/css/base.css?v=20260620-1" />
+  <link rel="stylesheet" href="/assets/css/content.css?v=20260621-1" />
   <link rel="stylesheet" href="style.css?v=20260621-1" />
+  <link rel="stylesheet" href="site-shell.css?v=20260622-1" />
 </head>
 <body>
-  <div class="container">
-    <a class="back-link" href="/">← 回理財網站首頁</a>
+  <a class="skip-link" href="#main-content">跳到主要內容</a>
 
+  <header class="site-header">
+    <nav class="site-nav site-shell" aria-label="主要導覽">
+      <a class="site-brand" href="/">LanVTand0050 理財筆記</a>
+      <div class="site-links">
+        <a href="/fire-calculators/" aria-current="page">財務工具</a>
+        <a href="/articles/">文章</a>
+        <a href="/privacy.html">隱私權</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container toolbox-container">
     <header class="home-hero">
       <p class="eyebrow">Financial Independence / Retirement Tools</p>
       <h1>FIRE 財務試算工具箱</h1>
@@ -27,7 +40,7 @@
       </p>
     </header>
 
-    <main class="tool-catalog">
+    <main id="main-content" class="tool-catalog">
       <section class="tool-category category-retirement" aria-labelledby="retirement-tools-title">
         <div class="category-heading">
           <h2 id="retirement-tools-title">退休規劃</h2>
@@ -107,10 +120,19 @@
       </section>
     </main>
 
-    <footer>
-      <p>此網站僅為財務情境試算，不構成投資建議。</p>
-      <p><a class="footer-link" href="https://lanvtand0050.github.io/privacy.html">隱私權政策</a></p>
-    </footer>
+    <p class="toolbox-disclaimer">此網站僅為財務情境試算，不構成投資建議。</p>
   </div>
+
+  <footer class="site-footer">
+    <div class="site-shell footer-row">
+      <p>© 2026 LanVTand0050 理財筆記</p>
+      <nav class="footer-links" aria-label="頁尾導覽">
+        <a href="/">首頁</a>
+        <a href="/fire-calculators/">財務工具</a>
+        <a href="/articles/">文章</a>
+        <a href="/privacy.html">隱私權政策</a>
+      </nav>
+    </div>
+  </footer>
 </body>
 </html>

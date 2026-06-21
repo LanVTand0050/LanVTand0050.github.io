@@ -13,17 +13,31 @@
     crossorigin="anonymous"
   ></script>
   <link rel="stylesheet" href="/assets/css/base.css?v=20260620-1" />
+  <link rel="stylesheet" href="/assets/css/content.css?v=20260621-1" />
   <link rel="stylesheet" href="../../style.css?v=20260621-1" />
+  <link rel="stylesheet" href="../../site-shell.css?v=20260622-1" />
 </head>
 <body>
-  <div class="container">
+  <a class="skip-link" href="#main-content">跳到主要內容</a>
+
+  <header class="site-header">
+    <nav class="site-nav site-shell" aria-label="主要導覽">
+      <a class="site-brand" href="/">LanVTand0050 理財筆記</a>
+      <div class="site-links">
+        <a href="/fire-calculators/" aria-current="page">財務工具</a>
+        <a href="/articles/">文章</a>
+        <a href="/privacy.html">隱私權</a>
+      </div>
+    </nav>
+  </header>
+<div class="container">
     <header>
       <a class="back-link" href="../../">← 回工具箱首頁</a>
       <h1>投資決策紀律檢查表</h1>
       <p>準備買進、賣出或調整部位前，先確認這次決定是否符合原訂計畫，而不是被市場情緒推著走。</p>
     </header>
 
-    <main class="layout discipline-layout">
+    <main id="main-content" class="layout discipline-layout">
       <section class="card input-card">
         <h2>交易前檢查</h2>
         <p class="section-intro">請只勾選目前確定符合的敘述。沒有把握的項目先不要勾選。</p>
@@ -152,12 +166,20 @@
       </div>
     </section>
 
-    <footer>
-      <p>此工具僅協助整理投資決策流程，不構成投資建議。</p>
-      <p><a class="footer-link" href="https://lanvtand0050.github.io/privacy.html">隱私權政策</a></p>
-    </footer>
+    <p class="tool-page-disclaimer">此工具僅協助整理投資決策流程，不構成投資建議。</p>
   </div>
 
   <script src="script.js?v=20260619-1"></script>
+  <footer class="site-footer">
+    <div class="site-shell footer-row">
+      <p>© 2026 LanVTand0050 理財筆記</p>
+      <nav class="footer-links" aria-label="頁尾導覽">
+        <a href="/">首頁</a>
+        <a href="/fire-calculators/">財務工具</a>
+        <a href="/articles/">文章</a>
+        <a href="/privacy.html">隱私權政策</a>
+      </nav>
+    </div>
+  </footer>
 </body>
 </html>

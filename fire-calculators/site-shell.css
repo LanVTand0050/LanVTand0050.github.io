@@ -1,0 +1,28 @@
+body > .site-header {
+  margin-bottom: 0;
+}
+
+.toolbox-container {
+  padding-top: 0;
+  padding-bottom: 56px;
+}
+
+.toolbox-disclaimer,
+.tool-page-disclaimer {
+  margin: 40px 0 0;
+  color: var(--color-muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+body > .site-footer {
+  margin-top: 0;
+  text-align: left;
+}
+
+@media (max-width: 640px) {
+  .toolbox-container {
+    padding-bottom: 40px;
+  }
+}
+
