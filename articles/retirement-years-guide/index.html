@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>退休還要多久？退休達成年數試算器使用與結果解讀｜LanVTand0050 理財筆記</title>
+  <meta name="description" content="用實際範例說明退休達成年數試算器的輸入方式、固定報酬與蒙地卡羅結果，並解讀 P10、P50、P90 與累積達成機率。" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://lanvtand0050.github.io/articles/retirement-years-guide/" />
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2613276287890532" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/assets/css/base.css?v=20260620-1" />
+  <link rel="stylesheet" href="/assets/css/content.css?v=20260621-1" />
+  <link rel="stylesheet" href="/assets/css/articles.css?v=20260622-1" />
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到主要內容</a>
+
+  <header class="site-header">
+    <nav class="site-nav site-shell" aria-label="主要導覽">
+      <a class="site-brand" href="/">LanVTand0050 理財筆記</a>
+      <div class="site-links">
+        <a href="/fire-calculators/">財務工具</a>
+        <a href="/articles/" aria-current="page">文章</a>
+        <a href="/privacy.html">隱私權</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main-content" class="article-main">
+    <a class="back-link" href="/articles/">← 回文章列表</a>
+
+    <article>
+      <header class="article-header">
+        <p class="article-category">工具使用</p>
+        <h1>退休還要多久？退休達成年數試算器使用與結果解讀</h1>
+        <div class="article-meta">
+          <time datetime="2026-06-22">2026 年 6 月 22 日</time>
+        </div>
+        <p class="article-lead">
+          「我什麼時候可以退休？」看似只要把資產用報酬率往後推算，真正困難的卻是市場不會每年穩定成長。這篇文章用一組具體數字，示範如何同時閱讀固定報酬與蒙地卡羅結果，將單一答案改成較實用的時間範圍。
+        </p>
+      </header>
+
+      <div class="article-content">
+        <h2>這個工具能回答什麼問題？</h2>
+        <p>
+          退休達成年數試算器從「累積資產」的角度出發：輸入目前可投資資產、退休目標金額、每月投入及報酬假設後，估算資產第一次達到目標需要多久。它適合用來比較不同儲蓄與投資情境，例如每月多投入一萬元能提早多久，或降低預期報酬後，退休時間是否仍在可接受範圍內。
+        </p>
+        <p>
+          不過，工具不會替你決定退休目標金額。開始試算前，仍要先依預估退休支出、提領率與安全邊際，得到一個自己能理解也願意承擔的目標。若目標本身過度樂觀，再精密的達成年數也沒有太大意義。
+        </p>
+
+        <h2>先理解兩種答案</h2>
+        <p>
+          工具會同時提供固定報酬與蒙地卡羅模擬。兩者不是互相競爭，而是回答不同層次的問題。
+        </p>
+        <ul>
+          <li><strong>固定報酬試算：</strong>假設每年都取得相同報酬，逐月複利並在每月底投入。它提供容易比較的基準答案。</li>
+          <li><strong>蒙地卡羅模擬：</strong>依輸入的平均報酬與波動率，產生許多不同市場路徑。它呈現達成年數的分布，以及在指定期間內達成目標的機率。</li>
+        </ul>
+        <p>
+          固定報酬結果很直觀，但現實市場不會平滑成長；蒙地卡羅模擬更接近「可能遇到很多種順序」，也仍不是對未來市場的預言。較好的使用方式，是把前者當基準線，把後者當壓力測試。
+        </p>
+
+        <h2>這次的試算條件</h2>
+        <p>以下沿用工具的預設值，方便任何人開啟頁面後重現固定報酬結果。</p>
+        <table>
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>設定值</th>
+              <th>代表的假設</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>目前可投資資產</td>
+              <td>2,000 萬元</td>
+              <td>可持續投入並用於退休目標的資產</td>
+            </tr>
+            <tr>
+              <td>退休目標金額</td>
+              <td>4,000 萬元</td>
+              <td>尚有 2,000 萬元缺口</td>
+            </tr>
+            <tr>
+              <td>每月投入</td>
+              <td>5 萬元</td>
+              <td>每月底投入，第一年共投入 60 萬元</td>
+            </tr>
+            <tr>
+              <td>預期年化報酬率</td>
+              <td>8%</td>
+              <td>固定試算的年報酬，也是模擬的平均報酬假設</td>
+            </tr>
+            <tr>
+              <td>年化波動率</td>
+              <td>18%</td>
+              <td>用來產生不同的市場路徑</td>
+            </tr>
+            <tr>
+              <td>每年投入成長率</td>
+              <td>0%</td>
+              <td>未假設未來會隨薪資提高投入</td>
+            </tr>
+            <tr>
+              <td>最長試算期間</td>
+              <td>40 年</td>
+              <td>超過期間仍未達標者記為未達成</td>
+            </tr>
+            <tr>
+              <td>模擬次數</td>
+              <td>10,000 次</td>
+              <td>用大量路徑觀察結果分布</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>固定報酬結果：基準答案約 7 年 1 個月</h2>
+        <p>
+          在上述條件下，固定報酬試算約在第 7 年 1 個月達到目標。達標時資產約為 4,013 萬元，期間新增投入約 425 萬元，其餘約 1,588 萬元來自原有資產與新增投入所累積的投資報酬。
+        </p>
+        <p>
+          這個結果最值得注意的，不是精確到哪一個月，而是複利與既有本金的影響。在這組案例中，2,000 萬元的起始資產是主要推力；每月投入仍能縮短時間，但不應把所有成長都誤認為新增儲蓄的成果。
+        </p>
+        <aside class="article-note">
+          <strong>解讀提醒：</strong>
+          「7 年 1 個月」只在每年穩定取得 8% 報酬的假設下成立。它適合作為比較方案的共同基準，不適合直接寫進人生行程表。
+        </aside>
+
+        <h2>蒙地卡羅結果怎麼看？</h2>
+        <p>
+          每次執行模擬都會重新產生市場路徑，因此數字會有些微變動。與其記住某一次結果，更重要的是理解畫面上的三類指標。
+        </p>
+
+        <h3>期間內達成機率</h3>
+        <p>
+          這是所有模擬路徑中，在最長試算期間內曾經達到 4,000 萬元的比例。若把期間設為 40 年，它回答的是「40 年內曾達標的路徑占多少」，不是「第 40 年仍有多少資產」，也不是退休後資產能否用到終老。
+        </p>
+
+        <h3>P10、P50 與 P90</h3>
+        <ul>
+          <li><strong>P10：</strong>偏樂觀的達標時間，約有一成路徑能在這個時間以前達標。</li>
+          <li><strong>P50：</strong>中位數情境，一半路徑較早達標，另一半較晚或未在期間內達標。</li>
+          <li><strong>P90：</strong>較保守的時間點；如果它超過距離預定退休時間的剩餘年數，代表計畫對市場表現較敏感。</li>
+        </ul>
+        <p>
+          若 P90 顯示「超過 40 年或未達成」，不是程式壞掉，而是至少一部分較差路徑沒有在設定期間內到達目標。這往往比一個漂亮的平均值更值得注意。
+        </p>
+
+        <h3>累積達成機率圖</h3>
+        <p>
+          圖上的線表示「截至該年度，已有多少比例的路徑達標」。例如第 10 年為 70%，意思是約七成模擬路徑在第 10 年底以前曾達到目標，並不是資產成長了 70%。可以在自己希望退休的年份讀取這條線，檢查計畫是否留有足夠餘裕。
+        </p>
+
+        <h2>比單次答案更有用的三種比較</h2>
+        <ol>
+          <li><strong>降低報酬假設：</strong>把 8% 改成 6% 或 5%，看看固定結果、P50 與 P90 延後多少。若差距很大，表示退休計畫高度依賴報酬。</li>
+          <li><strong>增加每月投入：</strong>分別試算 5 萬、6 萬與 7 萬，衡量提前退休的效果是否值得當下少一些可支配所得。</li>
+          <li><strong>調整目標金額：</strong>比較 4,000 萬與更高安全邊際。目標增加後，除了年數改變，也要觀察指定年份的累積達成機率。</li>
+        </ol>
+        <p>
+          每次只改一個參數，才看得出真正造成差異的因素。若同時提高報酬、增加投入又降低目標，雖然結果會很好看，卻很難知道哪個假設最關鍵。
+        </p>
+
+        <h2>工具的限制</h2>
+        <ul>
+          <li>模型沒有另外扣除投資費用、稅負與交易成本；若預期年化報酬是市場毛報酬，應自行調低。</li>
+          <li>沒有獨立的通貨膨脹欄位。目標金額、投入與報酬率應使用一致的名目或實質基礎，不能混用。</li>
+          <li>每月投入假設能持續執行，沒有納入失業、重大支出或中途提款。</li>
+          <li>蒙地卡羅模擬依輸入的報酬與波動假設產生路徑，不能涵蓋所有市場結構、極端事件或制度變化。</li>
+          <li>工具只估算累積到目標的時間，不回答退休後的提領率、資產配置與資產存活率。</li>
+        </ul>
+
+        <h2>我的判讀方式</h2>
+        <p>
+          我會先用固定報酬結果建立基準，再看 P50 是否與基準相距太遠，最後用 P90 和目標退休年份做壓力測試。如果計畫只有在偏樂觀情境下才能準時達成，我會優先調整投入、退休時間或目標支出，而不是直接把預期報酬率往上加。
+        </p>
+        <p>
+          試算器真正的價值不是告訴我們某年某月一定可以退休，而是讓模糊的期待變成可以比較的選項。當假設被清楚攤開，才有機會知道自己是在做計畫，還是在期待市場替自己完成計畫。
+        </p>
+      </div>
+
+      <aside class="related-tool">
+        <h2>代入自己的數字試算</h2>
+        <p>先記錄一組基準值，再逐次調整報酬率、每月投入與目標金額，比較退休時間與達成機率如何改變。</p>
+        <a class="button" href="/fire-calculators/tools/retirement-years/">開啟退休達成年數試算器</a>
+      </aside>
+
+      <p class="article-disclaimer">
+        本文內容與試算結果僅供情境規劃與個人經驗分享，不構成投資、借貸、保險或其他個人化財務建議。
+      </p>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-shell footer-row">
+      <p>© 2026 LanVTand0050 理財筆記</p>
+      <nav class="footer-links" aria-label="頁尾導覽">
+        <a href="/">首頁</a>
+        <a href="/fire-calculators/">財務工具</a>
+        <a href="/articles/">文章</a>
+        <a href="/privacy.html">隱私權政策</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
