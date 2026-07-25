@@ -8,7 +8,7 @@ const DEFAULT_STATE = {
   targetAssetWan: 4500,
   assets: [
     { name: "VT", currentAssetWan: 100, annualReturn: 7, monthlyContributionWan: 4, note: "全球股票 ETF" },
-    { name: "006208", currentAssetWan: 100, annualReturn: 9, monthlyContributionWan: 0, note: "台灣大型股 ETF" },
+    { name: "0050", currentAssetWan: 100, annualReturn: 9, monthlyContributionWan: 0, note: "台灣大型股 ETF" },
     { name: "2412", currentAssetWan: 100, annualReturn: 3.9, monthlyContributionWan: 1.4, note: "中華電信" },
     { name: "現金", currentAssetWan: 100, annualReturn: 1, monthlyContributionWan: 1, note: "現金／定存" }
   ]
