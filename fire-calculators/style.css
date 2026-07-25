@@ -446,7 +446,7 @@ footer {
   }
 }
 
-/* 退休達成年數試算器補充樣式 */
+/* 退休達標機率模擬器補充樣式 */
 .result-highlight {
   padding: 22px;
   border-radius: 16px;
@@ -818,4 +818,208 @@ footer {
 
 .footer-link:hover {
   text-decoration: underline;
+}
+
+.retirement-settings-card,
+.retirement-assets-card,
+.retirement-result-card {
+  margin-top: 24px;
+}
+
+.retirement-settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.retirement-section-heading {
+  display: flex;
+  gap: 20px;
+  align-items: start;
+  justify-content: space-between;
+}
+
+.retirement-section-heading h2,
+.retirement-settings-card h2 {
+  margin-bottom: 10px;
+}
+
+.compact-button {
+  width: auto;
+  flex: 0 0 auto;
+  margin-top: 0;
+  padding: 10px 14px;
+  font-size: 15px;
+}
+
+.asset-age-table {
+  min-width: 920px;
+}
+
+.asset-age-table th:first-child,
+.asset-age-table td:first-child,
+.asset-age-table th:nth-child(5),
+.asset-age-table td:nth-child(5),
+.result-allocation-table th:first-child,
+.result-allocation-table td:first-child,
+.result-allocation-table th:last-child,
+.result-allocation-table td:last-child {
+  text-align: left;
+}
+
+.asset-age-table input {
+  min-width: 105px;
+  padding: 9px 10px;
+  font-size: 15px;
+}
+
+.asset-age-table td:nth-child(2) input,
+.asset-age-table td:nth-child(4) input {
+  min-width: 150px;
+}
+
+.input-suffix {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.input-suffix span {
+  color: #64748b;
+  font-weight: 700;
+}
+
+.asset-remove-cell {
+  width: 46px;
+}
+
+.asset-remove-cell .icon-button {
+  color: #991b1b;
+}
+
+.asset-remove-cell .icon-button:disabled {
+  color: #94a3b8;
+}
+
+.retirement-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.retirement-actions button {
+  width: auto;
+  margin-top: 0;
+}
+
+.form-error {
+  margin: 16px 0 0;
+  padding: 12px 14px;
+  border-left: 4px solid #dc2626;
+  background: #fef2f2;
+  color: #7f1d1d;
+}
+
+.retirement-result-hero {
+  padding: 24px;
+  border: 1px solid #86efac;
+  border-radius: 16px;
+  background: #f0fdf4;
+}
+
+.retirement-result-hero.not-reached {
+  border-color: #fca5a5;
+  background: #fef2f2;
+}
+
+.retirement-result-hero span,
+.retirement-summary-grid span {
+  display: block;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.retirement-result-hero strong {
+  display: block;
+  margin-top: 8px;
+  color: #14532d;
+  font-size: clamp(32px, 5vw, 50px);
+}
+
+.retirement-result-hero.not-reached strong {
+  color: #991b1b;
+}
+
+.retirement-result-hero p {
+  margin: 8px 0 0;
+  color: #475569;
+}
+
+.retirement-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 18px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #e5e7eb;
+}
+
+.retirement-summary-grid div {
+  min-width: 0;
+  padding: 16px;
+  background: #ffffff;
+}
+
+.retirement-summary-grid strong {
+  display: block;
+  margin-top: 8px;
+  overflow-wrap: anywhere;
+  color: #111827;
+  font-size: 20px;
+}
+
+.retirement-chart-wrapper {
+  position: relative;
+  height: 460px;
+}
+
+#assetGrowthChart {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 900px) {
+  .retirement-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .retirement-settings-grid,
+  .retirement-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .retirement-section-heading {
+    display: block;
+  }
+
+  .retirement-section-heading .compact-button {
+    margin-bottom: 16px;
+  }
+
+  .retirement-actions {
+    flex-direction: column;
+  }
+
+  .retirement-actions button {
+    width: 100%;
+  }
+
+  .retirement-chart-wrapper {
+    height: 380px;
+  }
 }

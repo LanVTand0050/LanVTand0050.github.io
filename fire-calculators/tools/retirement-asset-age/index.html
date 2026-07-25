@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>多資產退休年齡試算器｜FIRE 財務試算工具箱</title>
+  <meta name="description" content="依各項資產的目前金額、年化報酬率與每月投入，逐月推估退休資產首次達標的年齡與達標時配置。" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://lanvtand0050.github.io/fire-calculators/tools/retirement-asset-age/" />
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2613276287890532" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/assets/css/base.css?v=20260620-1" />
+  <link rel="stylesheet" href="/assets/css/content.css?v=20260621-1" />
+  <link rel="stylesheet" href="../../style.css?v=20260725-1" />
+  <link rel="stylesheet" href="../../site-shell.css?v=20260622-1" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳到主要內容</a>
+  <header class="site-header">
+    <nav class="site-nav site-shell" aria-label="主要導覽">
+      <a class="site-brand" href="/">LanVTand0050 理財筆記</a>
+      <div class="site-links">
+        <a href="/fire-calculators/" aria-current="page">財務工具</a>
+        <a href="/articles/">文章</a>
+        <a href="/privacy.html">隱私權</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="container">
+    <header>
+      <a class="back-link" href="../../">← 回工具箱首頁</a>
+      <p class="eyebrow">Retirement Target Age</p>
+      <h1>多資產退休年齡試算器</h1>
+      <p>逐項設定不同資產的目前金額、報酬率與每月投入，估算總資產首次達到退休目標時的年齡。</p>
+    </header>
+
+    <main id="main-content">
+      <section class="card retirement-settings-card">
+        <div>
+          <h2>試算設定</h2>
+          <p class="section-intro">所有輸入只會儲存在你的瀏覽器 Cookie，不會傳送到伺服器。</p>
+        </div>
+        <div class="retirement-settings-grid">
+          <label>
+            目前年齡
+            <input id="currentAge" type="number" value="36" min="0" max="80" step="1" inputmode="numeric" />
+            <span>足歲</span>
+          </label>
+          <label>
+            退休目標資產
+            <input id="targetAssetWan" type="number" value="4500" min="1" step="1" inputmode="decimal" />
+            <span>萬元</span>
+          </label>
+        </div>
+      </section>
+
+      <section class="card retirement-assets-card">
+        <div class="retirement-section-heading">
+          <div>
+            <h2>投資資產</h2>
+            <p class="section-intro">每月報酬後再投入；最多可設定 8 項資產。</p>
+          </div>
+          <button id="addAssetButton" class="compact-button secondary-button" type="button">＋ 新增資產</button>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table asset-age-table">
+            <thead>
+              <tr>
+                <th>投資標的</th>
+                <th>目前資產（萬元）</th>
+                <th>年化報酬率</th>
+                <th>每月投入（萬元）</th>
+                <th>備註</th>
+                <th><span class="sr-only">刪除</span></th>
+              </tr>
+            </thead>
+            <tbody id="assetRows"></tbody>
+          </table>
+        </div>
+        <div class="retirement-actions">
+          <button id="calculateButton" type="button">重新試算</button>
+          <button id="resetButton" class="secondary-button" type="button">恢復預設值</button>
+        </div>
+        <p id="formError" class="form-error" role="alert" hidden></p>
+      </section>
+
+      <section class="card retirement-result-card" aria-live="polite">
+        <div class="retirement-result-hero">
+          <span>預估達標年齡</span>
+          <strong id="targetAge">—</strong>
+          <p id="targetStatus">請輸入資料開始試算</p>
+        </div>
+        <div class="retirement-summary-grid">
+          <div><span>達標所需時間</span><strong id="monthsNeeded">—</strong></div>
+          <div><span>達標時總資產</span><strong id="totalAtTarget">—</strong></div>
+          <div><span>目前總資產</span><strong id="currentTotal">—</strong></div>
+          <div><span>每月投入總額</span><strong id="monthlyTotal">—</strong></div>
+          <div><span>距離目標</span><strong id="targetGap">—</strong></div>
+        </div>
+      </section>
+
+      <section class="card table-card">
+        <h2>達標時資產配置</h2>
+        <div class="table-wrapper">
+          <table class="data-table result-allocation-table">
+            <thead>
+              <tr>
+                <th>投資標的</th>
+                <th>月報酬率</th>
+                <th>達標時資產（萬元）</th>
+                <th>配置占比</th>
+                <th>備註</th>
+              </tr>
+            </thead>
+            <tbody id="allocationRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card chart-card">
+        <h2>資產成長趨勢</h2>
+        <p class="section-intro">依目前設定逐月複利並持續投入，呈現從目前年齡至 80 歲的總資產與各項資產推估。虛線為退休目標資產。</p>
+        <div class="retirement-chart-wrapper">
+          <canvas id="assetGrowthChart" aria-label="目前年齡至 80 歲的資產成長趨勢圖" role="img"></canvas>
+        </div>
+      </section>
+
+      <section class="card explanation-card">
+        <h2>計算方式與限制</h2>
+        <div class="explanation-grid">
+          <div class="explanation-box">
+            <h3>逐項複利</h3>
+            <p>各資產依自己的年化報酬率換算有效月報酬率，再以「期初資產 ×（1＋月報酬率）＋每月投入」逐月計算。</p>
+          </div>
+          <div class="explanation-box">
+            <h3>達標判定</h3>
+            <p>所有資產合計首次大於或等於退休目標的月份即為達標月份；目前已達標時顯示 0 個月。</p>
+          </div>
+          <div class="explanation-box">
+            <h3>固定假設</h3>
+            <p>報酬率與每月投入在試算期間維持固定，未納入稅費、通膨、波動、投入成長或提領。</p>
+          </div>
+          <div class="explanation-box">
+            <h3>最長期間</h3>
+            <p>最長推估 100 年。若期限內仍未達標，請調整投入、報酬假設或退休目標。</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <p class="tool-page-disclaimer">此網站僅為財務情境試算，不構成投資建議。固定報酬假設不代表未來實際報酬。</p>
+  </div>
+
+  <script src="script.js?v=20260725-3"></script>
+  <footer class="site-footer">
+    <div class="site-shell footer-row">
+      <p>© 2026 LanVTand0050 理財筆記</p>
+      <nav class="footer-links" aria-label="頁尾導覽">
+        <a href="/">首頁</a>
+        <a href="/fire-calculators/">財務工具</a>
+        <a href="/articles/">文章</a>
+        <a href="/privacy.html">隱私權政策</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
